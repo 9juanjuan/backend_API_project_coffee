@@ -1,0 +1,17 @@
+{
+  "name": "coffeeorders",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js", 
+    "db:create": "createdb coffee-orders",
+    "db:init": "psql -f schema.sql coffee-orders && psql -f seed.sql coffee-orders",
+    "db:destroy": "dropdb coffee-orders",
+    "db:reset": "npm run db:destroy; npm run db:create && npm run db:init",
+    "test": "mocha",
+    "test:watch": "mocha -w"
+  },
+  "author": "",
+  "license": "ISC"
+}
