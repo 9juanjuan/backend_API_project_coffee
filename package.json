@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js", 
+    "dev": "nodemon index.js",
     "db:create": "createdb coffee-orders",
     "db:init": "psql -f schema.sql coffee-orders && psql -f seed.sql coffee-orders",
     "db:destroy": "dropdb coffee-orders",
@@ -13,5 +13,8 @@
     "test:watch": "mocha -w"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pg-promise": "^8.6.4"
+  }
 }

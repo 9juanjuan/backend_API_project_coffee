@@ -1,10 +1,14 @@
 // require pg-promise', then call it immediately, which gives 
 // us a configured database connector
 
-const pgp = require('pg-promise')();
+const pgp = require('pg-promise')({
+    query: e => {
+        console.log('QUERY: ', e.query);
+      }
+});
 const options = {
     host: 'localhost',
-    database: 'restaurant-favorite'
+    database: 'coffee-orders'
    };
 
 // make a connection to the database specified by the options object 
