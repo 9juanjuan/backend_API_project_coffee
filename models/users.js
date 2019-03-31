@@ -1,5 +1,6 @@
 const db = require('./conn'); 
 const Order = require('./coffee-orders')
+const bcrypt = require('bcryptjs')
 
 class User {
 
@@ -25,9 +26,20 @@ class User {
                 return newUser;
             })
             .catch(() => {
+                console.log('ruh roh')
                 return null; // signal an invalid value 
-            })
+        })
      }
+
+     setPassword(newPassword) {
+        const salt = bcrypt.genSaltSync(10); 
+        const hash = bcrypt.hashSync(newPassword, salt);
+        this.password = hash; 
+    }
+    checkPassword(aPassword) {
+        return bcrypt.compareSync(aPassword, this.password);
+    }
+
      static getAll () {
 
      }
@@ -45,8 +57,12 @@ class User {
                     console.log(cust_orders)
                     return cust_orders
                 })
-               
             })
+            .catch(() =>{
+                console.log('uh oh')
+                return null
+        })
+           
 
      }
     
@@ -54,13 +70,24 @@ class User {
 // User.getById(1); 
 // Able to retrieve orders placed by specific customer
 
-
+async function passwordEncryption(id, password, passCheck) {
+    const user1 = await User.getById(id);
+    user1.setPassword(password); 
+    console.log(user1.checkPassword(passCheck))
+}
 async function customer_orders(id) {
     const user1 = await User.getById(id);
     const user1Order = await user1.orders();
     // console.log(user1Order) 
     return user1Order
 }
-customer_orders(2);
+// customer_orders(7);
+
+//Password check should return true
+// passwordEncryption(1, 'baconfries', 'baconfries')
+
+
+/// Password check should fail / return false 
+// passwordEncryption(1, 'baconfries', 'chickenfries')
 
 module.exports = User; 
